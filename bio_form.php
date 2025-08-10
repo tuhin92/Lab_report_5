@@ -103,6 +103,43 @@ $data = $res->fetch_assoc();
             width: 0%;
             transition: width 0.3s ease;
         }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: #f8f9ff;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .checkbox-group label:hover {
+            background: #e9f0ff;
+            border-color: #667eea;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            width: 16px;
+            height: 16px;
+            accent-color: #667eea;
+        }
+        
+        .checkbox-group label:has(input:checked) {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
     </style>
 </head>
 <body class="bio-form-page">
@@ -229,16 +266,6 @@ $data = $res->fetch_assoc();
                                 <option value="Other" <?= (isset($data['body_type']) && $data['body_type']=='Other')?'selected':'' ?>>Other</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="complexion">Complexion</label>
-                            <select id="complexion" name="complexion">
-                                <option value="">Select Complexion</option>
-                                <option value="Fair" <?= (isset($data['complexion']) && $data['complexion']=='Fair')?'selected':'' ?>>Fair</option>
-                                <option value="Wheatish" <?= (isset($data['complexion']) && $data['complexion']=='Wheatish')?'selected':'' ?>>Wheatish</option>
-                                <option value="Dark" <?= (isset($data['complexion']) && $data['complexion']=='Dark')?'selected':'' ?>>Dark</option>
-                                <option value="Other" <?= (isset($data['complexion']) && $data['complexion']=='Other')?'selected':'' ?>>Other</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
@@ -255,11 +282,6 @@ $data = $res->fetch_assoc();
                             <label for="religion">Religion</label>
                             <input type="text" id="religion" name="religion" placeholder="e.g., Hindu, Muslim, Christian"
                                    value="<?= htmlspecialchars($data['religion'] ?? '') ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="caste">Caste/Community</label>
-                            <input type="text" id="caste" name="caste" placeholder="Enter your caste or community"
-                                   value="<?= htmlspecialchars($data['caste'] ?? '') ?>">
                         </div>
                     </div>
 
@@ -357,31 +379,35 @@ $data = $res->fetch_assoc();
                             </select>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="about_family">About Family</label>
-                        <textarea id="about_family" name="about_family" placeholder="Tell us about your family"><?= htmlspecialchars($data['about_family'] ?? '') ?></textarea>
-                    </div>
                 </div>
 
                 <!-- Personal Information -->
                 <div class="form-section" data-section="7">
                     <h3>💫 Personal Information</h3>
                     <div class="form-group">
-                        <label for="hobbies">Hobbies</label>
-                        <input type="text" id="hobbies" name="hobbies" placeholder="e.g., Reading, Traveling, Music"
-                               value="<?= htmlspecialchars($data['hobbies'] ?? '') ?>">
+                        <label>Hobbies</label>
+                        <div class="checkbox-group">
+                            <?php 
+                            $hobby_options = ['Reading', 'Traveling', 'Music', 'Sports', 'Cooking', 'Photography', 'Dancing', 'Gaming', 'Gardening', 'Art & Crafts'];
+                            $selected_hobbies = isset($data['hobbies']) ? explode(', ', $data['hobbies']) : [];
+                            foreach($hobby_options as $hobby): 
+                            ?>
+                            <label><input type="checkbox" name="hobbies[]" value="<?= $hobby ?>" <?= in_array($hobby, $selected_hobbies) ? 'checked' : '' ?>> <?= $hobby ?></label>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="interests">Interests</label>
-                        <input type="text" id="interests" name="interests" placeholder="e.g., Technology, Sports, Arts"
-                               value="<?= htmlspecialchars($data['interests'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="partner_preferences">Partner Preferences</label>
-                        <textarea id="partner_preferences" name="partner_preferences" placeholder="Describe what you're looking for in a partner"><?= htmlspecialchars($data['partner_preferences'] ?? '') ?></textarea>
+                        <label>Interests</label>
+                        <div class="checkbox-group">
+                            <?php 
+                            $interest_options = ['Technology', 'Business', 'Arts', 'Science', 'Literature', 'Politics', 'Social Work', 'Fashion', 'Movies', 'History'];
+                            $selected_interests = isset($data['interests']) ? explode(', ', $data['interests']) : [];
+                            foreach($interest_options as $interest): 
+                            ?>
+                            <label><input type="checkbox" name="interests[]" value="<?= $interest ?>" <?= in_array($interest, $selected_interests) ? 'checked' : '' ?>> <?= $interest ?></label>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
 

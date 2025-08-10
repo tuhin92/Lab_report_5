@@ -21,6 +21,16 @@ $age = '';
 if ($bio['dob']) {
     $age = date_diff(date_create($bio['dob']), date_create('today'))->y . ' years';
 }
+
+// Function to display array items as comma-separated values
+function displayArrayAsString($jsonString) {
+    if (empty($jsonString)) return 'Not specified';
+    $array = json_decode($jsonString, true);
+    if (is_array($array) && !empty($array)) {
+        return implode(', ', $array);
+    }
+    return $jsonString; // fallback for non-JSON data
+}
 ?>
 
 <div style="text-align: center; margin-bottom: 2rem;">
@@ -70,7 +80,7 @@ if ($bio['dob']) {
 </div>
 
 <!-- Physical Attributes -->
-<?php if ($bio['height'] || $bio['weight'] || $bio['hair_color'] || $bio['eye_color'] || $bio['body_type'] || $bio['complexion']): ?>
+<?php if ($bio['height'] || $bio['weight'] || $bio['hair_color'] || $bio['eye_color'] || $bio['body_type']): ?>
 <div style="margin-bottom: 2rem;">
     <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 1rem;">Physical Attributes</h3>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -104,18 +114,12 @@ if ($bio['dob']) {
             <span style="color: #666;"><?= htmlspecialchars($bio['body_type']) ?></span>
         </div>
         <?php endif; ?>
-        <?php if ($bio['complexion']): ?>
-        <div>
-            <strong style="color: #333;">Complexion:</strong><br>
-            <span style="color: #666;"><?= htmlspecialchars($bio['complexion']) ?></span>
-        </div>
-        <?php endif; ?>
     </div>
 </div>
 <?php endif; ?>
 
 <!-- Background Information -->
-<?php if ($bio['religion'] || $bio['caste'] || $bio['mother_tongue'] || $bio['nationality']): ?>
+<?php if ($bio['religion'] || $bio['mother_tongue'] || $bio['nationality']): ?>
 <div style="margin-bottom: 2rem;">
     <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 1rem;">Background</h3>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -123,12 +127,6 @@ if ($bio['dob']) {
         <div>
             <strong style="color: #333;">Religion:</strong><br>
             <span style="color: #666;"><?= htmlspecialchars($bio['religion']) ?></span>
-        </div>
-        <?php endif; ?>
-        <?php if ($bio['caste']): ?>
-        <div>
-            <strong style="color: #333;">Caste/Community:</strong><br>
-            <span style="color: #666;"><?= htmlspecialchars($bio['caste']) ?></span>
         </div>
         <?php endif; ?>
         <?php if ($bio['mother_tongue']): ?>
@@ -198,20 +196,20 @@ if ($bio['dob']) {
     <?php if ($bio['hobbies']): ?>
     <div style="margin-bottom: 1rem;">
         <strong style="color: #333;">Hobbies:</strong><br>
-        <span style="color: #666;"><?= htmlspecialchars($bio['hobbies']) ?></span>
+        <span style="color: #666;"><?= htmlspecialchars(displayArrayAsString($bio['hobbies'])) ?></span>
     </div>
     <?php endif; ?>
     <?php if ($bio['interests']): ?>
     <div style="margin-bottom: 1rem;">
         <strong style="color: #333;">Interests:</strong><br>
-        <span style="color: #666;"><?= htmlspecialchars($bio['interests']) ?></span>
+        <span style="color: #666;"><?= htmlspecialchars(displayArrayAsString($bio['interests'])) ?></span>
     </div>
     <?php endif; ?>
 </div>
 <?php endif; ?>
 
 <!-- Family Information -->
-<?php if ($bio['family_type'] || $bio['family_status'] || $bio['about_family']): ?>
+<?php if ($bio['family_type'] || $bio['family_status']): ?>
 <div style="margin-bottom: 2rem;">
     <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 1rem;">Family Information</h3>
     <?php if ($bio['family_type'] || $bio['family_status']): ?>
@@ -230,22 +228,6 @@ if ($bio['dob']) {
         <?php endif; ?>
     </div>
     <?php endif; ?>
-    <?php if ($bio['about_family']): ?>
-    <div>
-        <strong style="color: #333;">About Family:</strong><br>
-        <span style="color: #666;"><?= nl2br(htmlspecialchars($bio['about_family'])) ?></span>
-    </div>
-    <?php endif; ?>
-</div>
-<?php endif; ?>
-
-<!-- Partner Preferences -->
-<?php if ($bio['partner_preferences']): ?>
-<div style="margin-bottom: 2rem;">
-    <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 1rem;">Partner Preferences</h3>
-    <div>
-        <span style="color: #666;"><?= nl2br(htmlspecialchars($bio['partner_preferences'])) ?></span>
-    </div>
 </div>
 <?php endif; ?>
 
