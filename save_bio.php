@@ -14,9 +14,31 @@ $gender = $_POST['gender'];
 $email = trim($_POST['email']);
 $phone = trim($_POST['phone']);
 $address = trim($_POST['address']);
-$education = trim($_POST['education']);
-$profession = trim($_POST['profession']);
-$skills = trim($_POST['skills']);
+$education = trim($_POST['education'] ?? '');
+$profession = trim($_POST['profession'] ?? '');
+$skills = trim($_POST['skills'] ?? '');
+
+// Additional matrimonial fields
+$height = trim($_POST['height'] ?? '');
+$weight = trim($_POST['weight'] ?? '');
+$hair_color = trim($_POST['hair_color'] ?? '');
+$eye_color = trim($_POST['eye_color'] ?? '');
+$marital_status = $_POST['marital_status'] ?? '';
+$religion = trim($_POST['religion'] ?? '');
+$caste = trim($_POST['caste'] ?? '');
+$mother_tongue = trim($_POST['mother_tongue'] ?? '');
+$nationality = trim($_POST['nationality'] ?? '');
+$body_type = $_POST['body_type'] ?? '';
+$complexion = $_POST['complexion'] ?? '';
+$smoking = $_POST['smoking'] ?? 'No';
+$drinking = $_POST['drinking'] ?? 'No';
+$diet = $_POST['diet'] ?? 'Vegetarian';
+$hobbies = trim($_POST['hobbies'] ?? '');
+$interests = trim($_POST['interests'] ?? '');
+$family_type = $_POST['family_type'] ?? '';
+$family_status = $_POST['family_status'] ?? '';
+$about_family = trim($_POST['about_family'] ?? '');
+$partner_preferences = trim($_POST['partner_preferences'] ?? '');
 
 // Validation
 if (empty($name) || empty($dob) || empty($gender) || empty($email) || empty($phone) || empty($address)) {
@@ -82,18 +104,45 @@ try {
                 unlink("uploads/" . $old_data['photo']);
             }
             
-            $stmt = $conn->prepare("UPDATE bio_data SET name=?, dob=?, gender=?, email=?, phone=?, address=?, education=?, profession=?, skills=?, photo=? WHERE user_id=?");
-            $stmt->bind_param("ssssssssssi", $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $photo, $user_id);
+            $stmt = $conn->prepare("UPDATE bio_data SET 
+                name=?, dob=?, gender=?, email=?, phone=?, address=?, education=?, profession=?, skills=?, photo=?,
+                height=?, weight=?, hair_color=?, eye_color=?, marital_status=?, religion=?, caste=?, mother_tongue=?, 
+                nationality=?, body_type=?, complexion=?, smoking=?, drinking=?, diet=?, hobbies=?, interests=?, 
+                family_type=?, family_status=?, about_family=?, partner_preferences=?
+                WHERE user_id=?");
+            $stmt->bind_param("ssssssssssssssssssssssssssssssi", 
+                $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $photo,
+                $height, $weight, $hair_color, $eye_color, $marital_status, $religion, $caste, $mother_tongue,
+                $nationality, $body_type, $complexion, $smoking, $drinking, $diet, $hobbies, $interests,
+                $family_type, $family_status, $about_family, $partner_preferences, $user_id);
         } else {
-            $stmt = $conn->prepare("UPDATE bio_data SET name=?, dob=?, gender=?, email=?, phone=?, address=?, education=?, profession=?, skills=? WHERE user_id=?");
-            $stmt->bind_param("sssssssssi", $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $user_id);
+            $stmt = $conn->prepare("UPDATE bio_data SET 
+                name=?, dob=?, gender=?, email=?, phone=?, address=?, education=?, profession=?, skills=?,
+                height=?, weight=?, hair_color=?, eye_color=?, marital_status=?, religion=?, caste=?, mother_tongue=?, 
+                nationality=?, body_type=?, complexion=?, smoking=?, drinking=?, diet=?, hobbies=?, interests=?, 
+                family_type=?, family_status=?, about_family=?, partner_preferences=?
+                WHERE user_id=?");
+            $stmt->bind_param("sssssssssssssssssssssssssssssi", 
+                $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills,
+                $height, $weight, $hair_color, $eye_color, $marital_status, $religion, $caste, $mother_tongue,
+                $nationality, $body_type, $complexion, $smoking, $drinking, $diet, $hobbies, $interests,
+                $family_type, $family_status, $about_family, $partner_preferences, $user_id);
         }
         
         $_SESSION['success'] = "Bio data updated successfully!";
     } else {
         // Insert new bio data
-        $stmt = $conn->prepare("INSERT INTO bio_data (user_id, name, dob, gender, email, phone, address, education, profession, skills, photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssssssss", $user_id, $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $photo);
+        $stmt = $conn->prepare("INSERT INTO bio_data (
+            user_id, name, dob, gender, email, phone, address, education, profession, skills, photo,
+            height, weight, hair_color, eye_color, marital_status, religion, caste, mother_tongue, 
+            nationality, body_type, complexion, smoking, drinking, diet, hobbies, interests, 
+            family_type, family_status, about_family, partner_preferences
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssssssssssssssssssssssssssss", 
+            $user_id, $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $photo,
+            $height, $weight, $hair_color, $eye_color, $marital_status, $religion, $caste, $mother_tongue,
+            $nationality, $body_type, $complexion, $smoking, $drinking, $diet, $hobbies, $interests,
+            $family_type, $family_status, $about_family, $partner_preferences);
         
         $_SESSION['success'] = "Bio data saved successfully!";
     }

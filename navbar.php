@@ -12,7 +12,15 @@ if (isset($_SESSION['user_id'])) {
 
 <nav class="navbar">
     <div class="nav-content">
-        <a href="index.php" class="nav-brand">BioData App</a>
+        <div class="nav-left">
+            <a href="index.php" class="nav-brand">BioData App</a>
+            <a href="index.php" class="nav-home">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Home
+            </a>
+        </div>
         <div class="nav-user">
             <?php if (isset($_SESSION['user_id']) && $user_data): ?>
                 <div class="user-icon">
