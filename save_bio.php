@@ -110,7 +110,7 @@ try {
                 nationality=?, body_type=?, complexion=?, smoking=?, drinking=?, diet=?, hobbies=?, interests=?, 
                 family_type=?, family_status=?, about_family=?, partner_preferences=?
                 WHERE user_id=?");
-            $stmt->bind_param("ssssssssssssssssssssssssssssssi", 
+            $stmt->bind_param("sssssssssssssssssssssssssssssi", 
                 $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $photo,
                 $height, $weight, $hair_color, $eye_color, $marital_status, $religion, $caste, $mother_tongue,
                 $nationality, $body_type, $complexion, $smoking, $drinking, $diet, $hobbies, $interests,
@@ -138,7 +138,7 @@ try {
             nationality, body_type, complexion, smoking, drinking, diet, hobbies, interests, 
             family_type, family_status, about_family, partner_preferences
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssssssssssssssssssssssssssss", 
+        $stmt->bind_param("issssssssssssssssssssssssssssss", 
             $user_id, $name, $dob, $gender, $email, $phone, $address, $education, $profession, $skills, $photo,
             $height, $weight, $hair_color, $eye_color, $marital_status, $religion, $caste, $mother_tongue,
             $nationality, $body_type, $complexion, $smoking, $drinking, $diet, $hobbies, $interests,
